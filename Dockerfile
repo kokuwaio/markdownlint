@@ -2,7 +2,7 @@
 ## Download node and markdownlint
 ##
 
-FROM docker.io/library/debian:12.9-slim@sha256:40b107342c492725bc7aacbe93a49945445191ae364184a6d24fedb28172f6f7 AS build
+FROM docker.io/library/debian:12.9-slim@sha256:12c396bd585df7ec21d5679bb6a83d4878bc4415ce926c9e5ea6426d23c60bdc AS build
 SHELL ["/bin/bash", "-u", "-e", "-o", "pipefail", "-c"]
 WORKDIR /build
 
@@ -52,7 +52,7 @@ RUN --mount=type=tmpfs,target=/root/.npm /opt/node/bin/npm install "markdownlint
 ## Final stage
 ##
 
-FROM docker.io/library/debian:12.9-slim@sha256:40b107342c492725bc7aacbe93a49945445191ae364184a6d24fedb28172f6f7
+FROM docker.io/library/debian:12.9-slim@sha256:12c396bd585df7ec21d5679bb6a83d4878bc4415ce926c9e5ea6426d23c60bdc
 COPY --link --chown=0:0 --chmod=555 --from=build /opt/node/bin/node /opt/node/bin/node
 COPY --link --chown=0:0 --chmod=555 --from=build /opt/node/bin/markdownlint /opt/node/bin/markdownlint
 COPY --link --chown=0:0             --from=build /opt/node/lib/node_modules/markdownlint-cli /opt/node/lib/node_modules/markdownlint-cli
