@@ -28,7 +28,7 @@ RUN gpg --keyserver=hkps://keys.openpgp.org --recv-keys \
 # https://nodejs.org/en/download/releases/
 # https://endoflife.date/nodejs
 
-ARG NODE_VERSION=v22.15.0
+ARG NODE_VERSION=v22.16.0
 RUN --mount=type=cache,target=/build \
 	ARCH=$(dpkg --print-architecture); \
 	[[ $ARCH == amd64 ]] && export SUFFIX=x64; \
