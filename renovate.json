@@ -1,0 +1,33 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["local>infrastructure/renovate-config", ":reviewer(stephan.schnabel)"],
+	"packageRules": [
+		{
+			"matchPackageNames": ["nodejs/node"],
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		}
+	],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["Dockerfile", ".woodpecker/build.yaml"],
+			"matchStrings": [
+				"kokuwaio/markdownlint:(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)",
+				"markdownlint-cli@(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)",
+				"version: (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+			],
+			"datasourceTemplate": "npm",
+			"packageNameTemplate": "markdownlint-cli"
+		},{
+			"customType": "regex",
+			"managerFilePatterns": ["Dockerfile"],
+			"matchStrings": [
+				"nodejs.org/download/release/(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)/",
+				"node-(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)-linux-\\$SUFFIX"
+			],
+			"datasourceTemplate": "github-releases",
+			"packageNameTemplate": "nodejs/node"
+		}
+	]
+}
