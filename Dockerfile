@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
 
 # fetch gpg keys for verification
 # https://github.com/nodejs/node?tab=readme-ov-file#release-keys
-RUN gpg --keyserver=hkps://keys.openpgp.org --recv-keys \
+RUN gpg --keyserver=hkps://keyserver.ubuntu.com --recv-keys \
 		C0D6248439F1D5604AAFFB4021D900FFDB233756 \
 		DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7 \
 		CC68F5A3106FF448322E48ED27F5E38D5B0A215F \
@@ -38,7 +38,7 @@ RUN --mount=type=cache,target=/build \
 		"https://nodejs.org/download/release/v22.17.0/SHASUMS256.txt" \
 		"https://nodejs.org/download/release/v22.17.0/SHASUMS256.txt.sig" && \
 	sha256sum --quiet --check --strict --ignore-missing SHASUMS256.txt && \
-	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt 2>/dev/null && \
+	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt && \
 	tar --xz --extract --file="node-v22.17.0-linux-$SUFFIX.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
 	mv "node-v22.17.0-linux-$SUFFIX" /opt/node
 
