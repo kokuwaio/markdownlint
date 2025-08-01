@@ -18,5 +18,11 @@
 	docker buildx build . --build-arg=NPM_CONFIG_REGISTRY --platform=linux/amd64,linux/arm64
 
 # Inspect image layers with `dive`.
-@dive:
-	docker build .
+@dive TARGET="":
+	dive build . --build-arg=NPM_CONFIG_REGISTRY --target={{TARGET}}
+
+# Test created image.
+@test:
+	docker buildx build . --build-arg=NPM_CONFIG_REGISTRY --load --target=kokuwaio/markdownlint:dev
+	docker run --rm --read-only --volume=$(pwd):$(pwd):ro --workdir=$(pwd) kokuwaio/markdownlint:dev
+

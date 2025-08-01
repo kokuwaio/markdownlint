@@ -28,19 +28,19 @@ RUN gpg --keyserver=hkps://keyserver.ubuntu.com --recv-keys \
 # https://nodejs.org/en/download/releases/
 # https://endoflife.date/nodejs
 
+ARG TARGETARCH
 RUN --mount=type=cache,target=/build \
-	ARCH=$(dpkg --print-architecture); \
-	[[ $ARCH == amd64 ]] && export SUFFIX=x64; \
-	[[ $ARCH == arm64 ]] && export SUFFIX=arm64; \
-	[[ -z ${SUFFIX:-} ]] && echo "Unknown arch: $ARCH" && exit 1; \
+	[[ $TARGETARCH == amd64 ]] && export ARCH=x64; \
+	[[ $TARGETARCH == arm64 ]] && export ARCH=arm64; \
+	[[ -z ${ARCH:-} ]] && echo "Unknown arch: $TARGETARCH" && exit 1; \
 	wget --no-hsts --quiet \
-		"https://nodejs.org/download/release/v22.17.1/node-v22.17.1-linux-$SUFFIX.tar.xz" \
+		"https://nodejs.org/download/release/v22.17.1/node-v22.17.1-linux-$ARCH.tar.xz" \
 		"https://nodejs.org/download/release/v22.17.1/SHASUMS256.txt" \
 		"https://nodejs.org/download/release/v22.17.1/SHASUMS256.txt.sig" && \
 	sha256sum --quiet --check --strict --ignore-missing SHASUMS256.txt && \
 	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt && \
-	tar --xz --extract --file="node-v22.17.1-linux-$SUFFIX.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
-	mv "node-v22.17.1-linux-$SUFFIX" /opt/node
+	tar --xz --extract --file="node-v22.17.1-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
+	mv "node-v22.17.1-linux-$ARCH" /opt/node
 
 ARG NPM_CONFIG_REGISTRY
 RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.45.0" --global --no-fund --cache=/tmp
