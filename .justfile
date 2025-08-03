@@ -23,6 +23,6 @@
 
 # Test created image.
 @test:
-	docker buildx build . --build-arg=NPM_CONFIG_REGISTRY --load --target=kokuwaio/markdownlint:dev
+	docker buildx build . --build-arg=NPM_CONFIG_REGISTRY --load --tag=kokuwaio/markdownlint:dev
 	docker run --rm --read-only --volume=$(pwd):$(pwd):ro --workdir=$(pwd) kokuwaio/markdownlint:dev
 
