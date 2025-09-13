@@ -34,13 +34,13 @@ RUN --mount=type=cache,target=/build \
 	[[ $TARGETARCH == arm64 ]] && export ARCH=arm64; \
 	[[ -z ${ARCH:-} ]] && echo "Unknown arch: $TARGETARCH" && exit 1; \
 	wget --no-hsts --quiet \
-		"https://nodejs.org/download/release/v22.19.0/node-v22.19.0-linux-$ARCH.tar.xz" \
-		"https://nodejs.org/download/release/v22.19.0/SHASUMS256.txt" \
-		"https://nodejs.org/download/release/v22.19.0/SHASUMS256.txt.sig" && \
+		"https://nodejs.org/download/release/v24.8.0/node-v24.8.0-linux-$ARCH.tar.xz" \
+		"https://nodejs.org/download/release/v24.8.0/SHASUMS256.txt" \
+		"https://nodejs.org/download/release/v24.8.0/SHASUMS256.txt.sig" && \
 	sha256sum --quiet --check --strict --ignore-missing SHASUMS256.txt && \
 	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt && \
-	tar --xz --extract --file="node-v22.19.0-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
-	mv "node-v22.19.0-linux-$ARCH" /opt/node
+	tar --xz --extract --file="node-v24.8.0-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
+	mv "node-v24.8.0-linux-$ARCH" /opt/node
 
 ARG NPM_CONFIG_REGISTRY
 RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.45.0" --global --no-fund --cache=/tmp
