@@ -40,10 +40,14 @@ RUN --mount=type=cache,target=/build \
 	sha256sum --quiet --check --strict --ignore-missing SHASUMS256.txt && \
 	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt && \
 	tar --xz --extract --file="node-v24.8.0-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
-	mv "node-v24.8.0-linux-$ARCH" /opt/node
+	mv "node-v24.8.0-linux-$ARCH" /opt/node && \
+	find /opt/node -type f ! -name node -a ! -name npm -a ! -name \*.js -a ! -name \*.cjs -a ! -name package.json -a ! -name vendors.json -delete && \
+	find /opt/node -type d -empty -delete
 
 ARG NPM_CONFIG_REGISTRY
-RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.45.0" --global --no-fund --cache=/tmp
+RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.45.0" --global --no-fund --cache=/tmp && \
+	find /opt/node/lib/node_modules/markdownlint-cli -type f ! -name \*.js -a ! -name \*.cjs -a ! -name \*.mjs -a ! -name package.json -delete && \
+	find /opt/node/lib/node_modules/markdownlint-cli -type d -empty -delete
 
 ##
 ## Final stage

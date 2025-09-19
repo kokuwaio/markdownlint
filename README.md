@@ -1,6 +1,6 @@
 # Markdownlint WoodpeckerCI Plugin
 
-[![pulls](https://img.shields.io/docker/pulls/kokuwaio/markdownlint)](https://hub.docker.com/r/kokuwaio/dockerhub-metadata)
+[![pulls](https://img.shields.io/docker/pulls/kokuwaio/markdownlint)](https://hub.docker.com/r/kokuwaio/markdownlint)
 [![size](https://img.shields.io/docker/image-size/kokuwaio/markdownlint)](https://hub.docker.com/r/kokuwaio/markdownlint)
 [![dockerfile](https://img.shields.io/badge/source-Dockerfile%20-blue)](https://git.kokuwa.io/woodpecker/markdownlint/src/branch/main/Dockerfile)
 [![license](https://img.shields.io/badge/License-EUPL%201.2-blue)](https://git.kokuwa.io/woodpecker/markdownlint/src/branch/main/LICENSE)
