@@ -23,7 +23,8 @@ Woodpecker:
 ```yaml
 steps:
   markdownlint:
-    image: kokuwaio/markdownlint
+    depends_on: []
+    image: kokuwaio/markdownlint:0.45.0
     settings:
       dot: true
       enable: [MD013, MD041]
@@ -32,12 +33,16 @@ steps:
       path: [.markdownlint.yaml, "**/*.md"]]
 ```
 
-Gitlab:
+Gitlab: (using script is needed because of <https://gitlab.com/gitlab-org/gitlab/-/issues/19717>)
 
 ```yaml
 markdownlint:
+  needs: []
   stage: lint
-  image: kokuwaio/markdownlint
+  image:
+    name: kokuwaio/markdownlint:0.45.0
+    entrypoint: [""]
+  script: [/usr/local/bin/entrypoint.sh]
   variables:
     PLUGIN_DOT: true
     PLUGIN_ENABLE: MD013,MD041

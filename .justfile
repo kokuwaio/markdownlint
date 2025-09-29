@@ -15,7 +15,7 @@
 
 # Build image with local docker daemon.
 @build:
-	docker buildx build . --build-arg=NPM_CONFIG_REGISTRY --platform=linux/amd64,linux/arm64
+	docker buildx build . --platform=linux/amd64,linux/arm64 --build-arg=NPM_CONFIG_REGISTRY
 
 # Print image size.
 size:
@@ -28,9 +28,9 @@ size:
 
 # Inspect image layers with `dive`.
 @dive TARGET="":
-	dive build . --build-arg=NPM_CONFIG_REGISTRY --target={{TARGET}}
+	dive build . --target={{TARGET}} --build-arg=NPM_CONFIG_REGISTRY
 
 # Test created image.
 @test:
-	docker build . --build-arg=NPM_CONFIG_REGISTRY --tag=kokuwaio/markdownlint:dev
+	docker buildx build . --load --tag=kokuwaio/markdownlint:dev --build-arg=NPM_CONFIG_REGISTRY
 	docker run --rm --read-only --volume=$(pwd):$(pwd):ro --workdir=$(pwd) kokuwaio/markdownlint:dev
