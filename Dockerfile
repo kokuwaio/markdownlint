@@ -2,7 +2,7 @@
 ## Download node and markdownlint
 ##
 
-FROM docker.io/library/debian:13.5-slim@sha256:dd723c6aa29afd6e310a82dca36ecd596ccc34827d6e3518ab41873b7b582f07 AS build
+FROM docker.io/library/debian:13.5-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8 AS build
 SHELL ["/bin/bash", "-u", "-e", "-o", "pipefail", "-c"]
 WORKDIR /build
 # hadolint ignore=DL3008
@@ -53,7 +53,7 @@ RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markd
 ## Final stage
 ##
 
-FROM docker.io/library/debian:13.5-slim@sha256:dd723c6aa29afd6e310a82dca36ecd596ccc34827d6e3518ab41873b7b582f07
+FROM docker.io/library/debian:13.5-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8
 COPY --chmod=555 --from=build /opt/node/bin/node /opt/node/bin/
 COPY             --from=build /opt/node/lib/node_modules/markdownlint-cli /opt/node/lib/node_modules/markdownlint-cli
 COPY --chmod=555 entrypoint.sh /usr/local/bin/entrypoint.sh
