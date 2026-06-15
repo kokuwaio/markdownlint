@@ -1,15 +1,25 @@
+# hadolint global ignore=DL3008
+FROM docker.io/library/debian:13.4-slim@sha256:cedb1ef40439206b673ee8b33a46a03a0c9fa90bf3732f54704f99cb061d2c5a AS base
+ARG DEBIAN_FRONTEND=noninteractive
+# https://github.com/nodejs/node/issues/60790
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/cache \
+    --mount=type=tmpfs,target=/var/log \
+	apt-get -qq update && \
+	apt-get -qq install --yes --no-install-recommends libatomic1
+
 ##
 ## Download node and markdownlint
 ##
 
-FROM docker.io/library/debian:13.5-slim@sha256:4e401d95de7083948053197a9c3913343cd06b706bf15eb6a0c3ccd26f436a0e AS build
+FROM base AS build
 SHELL ["/bin/bash", "-u", "-e", "-o", "pipefail", "-c"]
 WORKDIR /build
-# hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/cache \
+    --mount=type=tmpfs,target=/var/log \
 	apt-get -qq update && \
-	apt-get -qq install --yes --no-install-recommends ca-certificates wget gpg gpg-agent dirmngr xz-utils && \
-	rm -rf /etc/*- /var/lib/dpkg/*-old /var/lib/dpkg/status /var/cache/* /var/log/*
+	apt-get -qq install --yes --no-install-recommends ca-certificates wget gpg gpg-agent dirmngr xz-utils
 
 # fetch gpg keys for verification
 # https://github.com/nodejs/node?tab=readme-ov-file#release-keys
@@ -53,7 +63,7 @@ RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markd
 ## Final stage
 ##
 
-FROM docker.io/library/debian:13.5-slim@sha256:4e401d95de7083948053197a9c3913343cd06b706bf15eb6a0c3ccd26f436a0e
+FROM base
 COPY --chmod=555 --from=build /opt/node/bin/node /opt/node/bin/
 COPY             --from=build /opt/node/lib/node_modules/markdownlint-cli /opt/node/lib/node_modules/markdownlint-cli
 COPY --chmod=555 entrypoint.sh /usr/local/bin/entrypoint.sh
