@@ -44,13 +44,13 @@ RUN --mount=type=cache,target=/build,id=nodejs \
 	[[ $TARGETARCH == arm64 ]] && export ARCH=arm64; \
 	[[ -z ${ARCH:-} ]] && echo "Unknown arch: $TARGETARCH" && exit 1; \
 	wget --no-hsts --quiet \
-		"https://nodejs.org/download/release/v26.3.0/node-v26.3.0-linux-$ARCH.tar.xz" \
-		"https://nodejs.org/download/release/v26.3.0/SHASUMS256.txt" \
-		"https://nodejs.org/download/release/v26.3.0/SHASUMS256.txt.sig" && \
+		"https://nodejs.org/download/release/v26.3.1/node-v26.3.1-linux-$ARCH.tar.xz" \
+		"https://nodejs.org/download/release/v26.3.1/SHASUMS256.txt" \
+		"https://nodejs.org/download/release/v26.3.1/SHASUMS256.txt.sig" && \
 	sha256sum --quiet --check --strict --ignore-missing SHASUMS256.txt && \
 	gpg --verify SHASUMS256.txt.sig SHASUMS256.txt && \
-	tar --xz --extract --file="node-v26.3.0-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
-	mv "node-v26.3.0-linux-$ARCH" /opt/node && \
+	tar --xz --extract --file="node-v26.3.1-linux-$ARCH.tar.xz" --exclude=bin/npx --exclude=bin/corepack --exclude=lib/node_modules/corepack --exclude=include --exclude=share --no-same-owner && \
+	mv "node-v26.3.1-linux-$ARCH" /opt/node && \
 	find /opt/node -type f ! -name node -a ! -name npm -a ! -name \*.js -a ! -name \*.cjs -a ! -name package.json -a ! -name vendors.json -a ! -name builtin-modules.json -delete && \
 	find /opt/node -type d -empty -delete
 
