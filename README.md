@@ -24,7 +24,7 @@ Woodpecker:
 steps:
   markdownlint:
     depends_on: []
-    image: kokuwaio/markdownlint:0.49.0
+    image: kokuwaio/markdownlint:0.49.1
     settings:
       dot: true
       enable: [MD013, MD041]
@@ -40,7 +40,7 @@ markdownlint:
   needs: []
   stage: lint
   image:
-    name: kokuwaio/markdownlint:0.49.0
+    name: kokuwaio/markdownlint:0.49.1
     entrypoint: [""]
   script: [/usr/local/bin/entrypoint.sh]
   variables:

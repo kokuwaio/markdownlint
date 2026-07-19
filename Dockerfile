@@ -55,7 +55,7 @@ RUN --mount=type=cache,target=/build,id=nodejs \
 	find /opt/node -type d -empty -delete
 
 ARG NPM_CONFIG_REGISTRY
-RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.49.0" --global --no-fund --cache=/tmp && \
+RUN --mount=type=tmpfs,target=/tmp PATH="$PATH:/opt/node/bin" npm install "markdownlint-cli@0.49.1" --global --no-fund --cache=/tmp && \
 	find /opt/node/lib/node_modules/markdownlint-cli -type f ! -name \*.js -a ! -name \*.cjs -a ! -name \*.mjs -a ! -name package.json -delete && \
 	find /opt/node/lib/node_modules/markdownlint-cli -type d -empty -delete
 
