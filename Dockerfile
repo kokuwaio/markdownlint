@@ -1,5 +1,5 @@
 # hadolint global ignore=DL3008,SC3010
-FROM docker.io/library/debian:13.6-slim@sha256:d7e12182ce18b85b93007c1dedf31f2d29e01ccf3182cc4017c709b6259bc132 AS base
+FROM docker.io/library/debian:13.7-slim@sha256:93b9a6764e5d7a53b6b3682cc370cbb85ace510ffe5f60b6a03821655a4b3e52 AS base
 ARG DEBIAN_FRONTEND=noninteractive
 # https://github.com/nodejs/node/issues/60790
 RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
